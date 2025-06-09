@@ -2,43 +2,37 @@
 using System.Windows.Forms;
 using UnicomTicManagementSystem.Models;
 using UnicomTicManagementSystem.Repositories;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UnicomTicManagementSystem.Views
 {
     public partial class StudentDashboard : Form
     {
+
+        private string username;
+        private Student student;
+                
         public StudentDashboard()
         {
             InitializeComponent();
         }
-
-        private void StudentDashboard_Load(object sender, EventArgs e)
+        public StudentDashboard(string username)
         {
-            int studentId = UserLogin.StudentId;
+            InitializeComponent();
+            this.username = username;
 
-            if (studentId <= 0)
-            {
-                MessageBox.Show("Invalid student session.");
-                this.Close();
-                return;
-            }
-
-            var student = StudentRepository.GetStudentById(studentId);
+            Student student = StudentRepository.GetStudentByUsername(username);
 
             if (student != null)
             {
                 lblName.Text = student.Name;
-                lblUsername.Text = student.Username;
+                lblUsername.Text = username;
                 lblPassword.Text = student.Password;
                 lblAddress.Text = student.Address;
-                lblStream.Text = student.Stream;
+                lblStream.Text = student.SectionName; 
             }
-            else
-            {
-                MessageBox.Show("Student details not found.");
-                this.Close();
-            }
-        }
+
+        }          
 
         private void lblName_Click(object sender, EventArgs e)
         {

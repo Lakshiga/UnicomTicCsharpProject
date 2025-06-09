@@ -72,17 +72,18 @@ namespace UnicomTicManagementSystem.Views
                         this.Show(); // Optionally show login again after logout
                         break;
 
-
                     case "staff":
                         var staffDashboard = new StaffDashboard();
-                        staffDashboard.FormClosed += (s, args) => this.Close();
-                        staffDashboard.Show();
+                        this.Hide();
+                        staffDashboard.ShowDialog();
+                        this.Show();
                         break;
 
                     case "lecturer":
                         var lecturerDashboard = new LecturerDashboard();
-                        lecturerDashboard.FormClosed += (s, args) => this.Close();
-                        lecturerDashboard.Show();
+                        this.Hide();
+                        lecturerDashboard.ShowDialog();
+                        this.Show();
                         break;
 
                     case "student":
@@ -97,20 +98,22 @@ namespace UnicomTicManagementSystem.Views
                             UserLogin.Address = student.Address;
                             UserLogin.Stream = student.Stream;
 
-                            var studentDashboard = new StudentDashboard();
-                            studentDashboard.FormClosed += (s, args) => this.Close();
-                            studentDashboard.Show();
+                            StudentDashboard dashboard = new StudentDashboard(txtUsername.Text.Trim());                            
+                            this.Hide();
+                            dashboard.ShowDialog();
+                            this.Show();
+
                         }
                         else
                         {
                             MessageBox.Show("Student profile not found.");
-                            this.Show(); // Redisplay login form
+                            this.Show(); 
                         }
                         break;
 
                     default:
                         MessageBox.Show("Unknown role. Access denied.");
-                        this.Show(); // Redisplay login form
+                        this.Show(); 
                         break;
                 }
             }

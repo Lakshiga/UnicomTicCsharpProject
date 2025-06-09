@@ -18,13 +18,15 @@ namespace UnicomTicManagementSystem.Repositories
 
             using (SQLiteConnection conn = DbCon.GetConnection())
             {
-                string query = "SELECT * FROM Student WHERE Id = @Id";
+                string query = @"SELECT s.*, u.Username, u.Password 
+                                 FROM Students s 
+                                 INNER JOIN Users u ON s.UserId = u.Id 
+                                 WHERE s.Id = @Id";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
 
-                    conn.Open();
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
@@ -61,7 +63,13 @@ namespace UnicomTicManagementSystem.Repositories
                 }
 
                 // 2. Get student by UserId
-                string studentQuery = "SELECT * FROM Students WHERE UserId = @UserId";
+                string studentQuery = @"
+                                        SELECT s.*, u.Username, u.Password, sec.Name AS SectionName
+                                        FROM Students s
+                                        INNER JOIN Users u ON s.UserId = u.Id
+                                        LEFT JOIN Sections sec ON s.SectionId = sec.Id
+                                        WHERE s.UserId = @UserId";
+
 
                 using (SQLiteCommand cmd = new SQLiteCommand(studentQuery, conn))
                 {
@@ -91,7 +99,9 @@ namespace UnicomTicManagementSystem.Repositories
                 Stream = ColumnExists(reader, "Stream") ? reader["Stream"].ToString() : "",
                 SectionId = ColumnExists(reader, "SectionId") && reader["SectionId"] != DBNull.Value ? Convert.ToInt32(reader["SectionId"]) : 0,
                 SectionName = ColumnExists(reader, "SectionName") ? reader["SectionName"].ToString() : "",
-                UserId = ColumnExists(reader, "UserId") && reader["UserId"] != DBNull.Value ? Convert.ToInt32(reader["UserId"]) : 0
+                UserId = ColumnExists(reader, "UserId") && reader["UserId"] != DBNull.Value ? Convert.ToInt32(reader["UserId"]) : 0,
+                Username = ColumnExists(reader, "Username") ? reader["Username"].ToString() : "",
+                Password = ColumnExists(reader, "Password") ? reader["Password"].ToString() : ""
             };
         }
 
