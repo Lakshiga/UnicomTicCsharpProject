@@ -9,32 +9,39 @@ using System.Threading.Tasks;
 
 namespace UnicomTicManagementSystem.Services
 {
-    internal class StudentService
+    public class StudentService
     {
         public void Add(Student student, string username, string password)
         {
             using (var conn = DbCon.GetConnection())
             {
+                conn.Open();
+
+                // Check if user exists
+                int userId = UserRepository.GetUserIdByUsername(username);
+                if (userId == -1)
+                {
+                    // Add user first and get new user id
+                    userId = UserRepository.AddUser(new User
+                    {
+                        Username = username,
+                        Password = password,
+                        Role = "student"
+                    });
+                }
+
+                // Insert student with UserId FK
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO Students (Name, Address, SectionId, SectionName) VALUES (@name, @address, @sectionId, @sectionName)";
+                cmd.CommandText = "INSERT INTO Students (Name, Address, SectionId, SectionName, UserId) VALUES (@name, @address, @sectionId, @sectionName, @userId)";
                 cmd.Parameters.AddWithValue("@name", student.Name);
                 cmd.Parameters.AddWithValue("@address", student.Address);
                 cmd.Parameters.AddWithValue("@sectionId", student.SectionId);
-                cmd.Parameters.AddWithValue("@sectionName", student.SectionName);
+                cmd.Parameters.AddWithValue("@sectionName", student.SectionName ?? "");
+                cmd.Parameters.AddWithValue("@userId", userId);
                 cmd.ExecuteNonQuery();
             }
-
-            // Add user to repository if username doesn't exist
-            if (!UserRepository.UserExists(username))
-            {
-                UserRepository.AddUser(new User
-                {
-                    Username = username,
-                    Password = password,
-                    Role = "student"
-                });
-            }
         }
+
 
         public List<Student> GetAll()
         {
@@ -61,16 +68,28 @@ namespace UnicomTicManagementSystem.Services
             return students;
         }
 
-        public void Update(Student student)
+        public void Update(Student student, string username, string password)
         {
             using (var conn = DbCon.GetConnection())
             {
+                conn.Open();
+
+                // Update user info
+                UserRepository.UpdateUser(new User
+                {
+                    Id = student.UserId,
+                    Username = username,
+                    Password = password,
+                    Role = "student"  // assuming role does not change here
+                });
+
+                // Update student info
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = "UPDATE Students SET Name = @name, Address = @address, SectionId = @sectionId, SectionName = @sectionName WHERE Id = @id";
                 cmd.Parameters.AddWithValue("@name", student.Name);
                 cmd.Parameters.AddWithValue("@address", student.Address);
                 cmd.Parameters.AddWithValue("@sectionId", student.SectionId);
-                cmd.Parameters.AddWithValue("@sectionName", student.SectionName);
+                cmd.Parameters.AddWithValue("@sectionName", student.SectionName ?? "");
                 cmd.Parameters.AddWithValue("@id", student.Id);
                 cmd.ExecuteNonQuery();
             }
@@ -80,11 +99,35 @@ namespace UnicomTicManagementSystem.Services
         {
             using (var conn = DbCon.GetConnection())
             {
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = "DELETE FROM Students WHERE Id = @id";
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.ExecuteNonQuery();
+                conn.Open();
+
+                // Get UserId of student to delete
+                int userId = -1;
+                var cmdSelect = conn.CreateCommand();
+                cmdSelect.CommandText = "SELECT UserId FROM Students WHERE Id = @id";
+                cmdSelect.Parameters.AddWithValue("@id", id);
+                var result = cmdSelect.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    userId = Convert.ToInt32(result);
+                }
+
+                // Delete student
+                var cmdDeleteStudent = conn.CreateCommand();
+                cmdDeleteStudent.CommandText = "DELETE FROM Students WHERE Id = @id";
+                cmdDeleteStudent.Parameters.AddWithValue("@id", id);
+                cmdDeleteStudent.ExecuteNonQuery();
+
+                if (userId != -1)
+                {
+                    // Delete user
+                    var cmdDeleteUser = conn.CreateCommand();
+                    cmdDeleteUser.CommandText = "DELETE FROM Users WHERE Id = @userId";
+                    cmdDeleteUser.Parameters.AddWithValue("@userId", userId);
+                    cmdDeleteUser.ExecuteNonQuery();
+                }
             }
         }
+
     }
 }

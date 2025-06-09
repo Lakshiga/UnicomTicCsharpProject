@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using UnicomTicManagementSystem.Models;
 using UnicomTicManagementSystem.Controllers;
 using UnicomTicManagementSystem.Repositories;
+using UnicomTicManagementSystem.Services;
 
 namespace UnicomTicManagementSystem.Views
 {
@@ -40,6 +41,10 @@ namespace UnicomTicManagementSystem.Views
             if (dgvStudents.Columns.Contains("SectionId"))
             {
                 dgvStudents.Columns["SectionId"].Visible = false;
+                dgvStudents.Columns["Username"].Visible = false;
+                dgvStudents.Columns["Password"].Visible = false;
+                dgvStudents.Columns["Stream"].Visible = false;
+                dgvStudents.Columns["UserId"].Visible = false;
             }
 
             dgvStudents.ClearSelection();
@@ -124,7 +129,7 @@ namespace UnicomTicManagementSystem.Views
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(name.Text) || string.IsNullOrWhiteSpace(address.Text))
+            if (string.IsNullOrWhiteSpace(username.Text) || string.IsNullOrWhiteSpace(password.Text))
             {
                 MessageBox.Show("Please enter both Name and Address.");
                 return;
@@ -138,7 +143,7 @@ namespace UnicomTicManagementSystem.Views
                 SectionId = (int)cmbSection.SelectedValue
             };
 
-            _studentController.UpdateStudent(student);
+            _studentController.UpdateStudent(student, username.Text.Trim(), password.Text.Trim());
             LoadStudents();
             ClearForm();
             MessageBox.Show("Student Updated Successfully");
@@ -180,7 +185,8 @@ namespace UnicomTicManagementSystem.Views
                 SectionId = (int)cmbSection.SelectedValue
             };
 
-            _studentController.AddStudent(student);
+            _studentController.AddStudent(student, typedUsername, typedPassword);
+
 
             // Add user credentials to repository
             UserRepository.AddUser(new User

@@ -2,44 +2,110 @@
 using System.Data;
 using System.Data.SqlClient;
 using UnicomTicManagementSystem.Models;
+using System.Data.SQLite;
+using UnicomTicManagementSystem.Data;
 
-public static class StudentRepository
+namespace UnicomTicManagementSystem.Repositories
 {
-    // ✅ Replace this with your real connection string
-    private static string connectionString = "Data Source=localhost;Initial Catalog=YourDatabaseName;Integrated Security=True;";
-
-    public static Student GetStudentByUsername(string username)
+    public static class StudentRepository
     {
-        Student student = null;
+        // ✅ Make sure this is your actual DB name
+        
 
-        using (SqlConnection con = new SqlConnection(connectionString))
+        public static Student GetStudentById(int id)
         {
-            string query = "SELECT * FROM Student WHERE Username = @Username";
+            Student student = null;
 
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            using (SQLiteConnection conn = DbCon.GetConnection())
             {
-                cmd.Parameters.AddWithValue("@Username", username);
+                string query = "SELECT * FROM Student WHERE Id = @Id";
 
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    student = new Student
-                    {
-                        Id = reader["Id"].ToString(),
-                        Name = reader["Name"].ToString(),
-                        Username = reader["Username"].ToString(),
-                        Password = reader["Password"].ToString(),
-                        Address = reader["Address"].ToString(),
-                        Stream = reader["Stream"].ToString()
-                    };
-                }
+                    cmd.Parameters.AddWithValue("@Id", id);
 
-                reader.Close();
+                    conn.Open();
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            student = MapStudentFromReader(reader);
+                        }
+                    }
+                }
             }
+
+            return student;
         }
 
-        return student;
+        public static Student GetStudentByUsername(string username)
+        {
+            Student student = null;
+
+            using (SQLiteConnection conn = DbCon.GetConnection())
+            {
+                
+
+                // 1. Get user by username
+                string userQuery = "SELECT Id FROM Users WHERE Username = @Username";
+
+                int userId = -1;
+                using (SQLiteCommand cmd = new SQLiteCommand(userQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        userId = Convert.ToInt32(result);
+                    else
+                        return null; // user not found
+                }
+
+                // 2. Get student by UserId
+                string studentQuery = "SELECT * FROM Students WHERE UserId = @UserId";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(studentQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            student = MapStudentFromReader(reader);
+                        }
+                    }
+                }
+            }
+
+            return student;
+        }
+
+
+
+        private static Student MapStudentFromReader(SQLiteDataReader reader)
+        {
+            return new Student
+            {
+                Id = ColumnExists(reader, "Id") && reader["Id"] != DBNull.Value ? Convert.ToInt32(reader["Id"]) : 0,
+                Name = ColumnExists(reader, "Name") ? reader["Name"].ToString() : "",
+                Address = ColumnExists(reader, "Address") ? reader["Address"].ToString() : "",
+                Stream = ColumnExists(reader, "Stream") ? reader["Stream"].ToString() : "",
+                SectionId = ColumnExists(reader, "SectionId") && reader["SectionId"] != DBNull.Value ? Convert.ToInt32(reader["SectionId"]) : 0,
+                SectionName = ColumnExists(reader, "SectionName") ? reader["SectionName"].ToString() : "",
+                UserId = ColumnExists(reader, "UserId") && reader["UserId"] != DBNull.Value ? Convert.ToInt32(reader["UserId"]) : 0
+            };
+        }
+
+
+        private static bool ColumnExists(SQLiteDataReader reader, string columnName)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.GetName(i).Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+
     }
 }

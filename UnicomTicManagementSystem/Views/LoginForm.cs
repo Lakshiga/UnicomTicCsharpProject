@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UnicomTicManagementSystem.Models;
 using UnicomTicManagementSystem.Repositories;
@@ -44,70 +37,80 @@ namespace UnicomTicManagementSystem.Views
                 return;
             }
 
-            // First-time admin registration
             if (!UserRepository.HasAnyUsers())
             {
-                var admin = new User
+                // First-time admin registration
+                var newAdmin = new User
                 {
                     Username = username,
                     Password = password,
                     Role = "Admin"
                 };
 
-                UserRepository.AddUser(admin);
-                MessageBox.Show("Admin account created successfully.");
+                UserRepository.AddUser(newAdmin);
+                MessageBox.Show("Admin account created successfully. You can now log in.");
+                LoginForm_Load(sender, e); // Refresh the form to switch to login mode
                 return;
             }
 
-            // Authenticate user
+            // Regular login process
             var user = UserRepository.Authenticate(username, password);
 
             if (user != null)
             {
-                // Store login session
                 UserLogin.Username = user.Username;
                 UserLogin.Role = user.Role;
-                UserLogin.StudentId = user.StudentId;
 
-                this.Hide(); // Hide login window
+                this.Hide(); // Hide login form
 
                 switch (user.Role.ToLower())
                 {
                     case "admin":
-                        var adminDashboard = new MainForm(); // Admin: full control
-                        adminDashboard.Show();
+                        var adminDashboard = new MainForm();
+                        this.Hide();  // Hide the login form, don't close it
+                        adminDashboard.ShowDialog(); // Block here until MainForm is closed
+                        this.Show(); // Optionally show login again after logout
                         break;
 
+
                     case "staff":
-                        var staffDashboard = new StaffDashboard(); // View timetables, add/edit exams and marks
+                        var staffDashboard = new StaffDashboard();
+                        staffDashboard.FormClosed += (s, args) => this.Close();
                         staffDashboard.Show();
                         break;
 
+                    case "lecturer":
+                        var lecturerDashboard = new LecturerDashboard();
+                        lecturerDashboard.FormClosed += (s, args) => this.Close();
+                        lecturerDashboard.Show();
+                        break;
+
                     case "student":
-                        // 🔥 Load student info from repository
-                        var student = StudentRepository.GetStudentById(user.StudentId);
+                        var student = StudentRepository.GetStudentByUsername(user.Username);
                         if (student != null)
                         {
+                            UserLogin.StudentId = student.Id;
                             UserLogin.Id = student.Id;
                             UserLogin.Name = student.Name;
                             UserLogin.Username = student.Username;
                             UserLogin.Password = student.Password;
                             UserLogin.Address = student.Address;
                             UserLogin.Stream = student.Stream;
+
+                            var studentDashboard = new StudentDashboard();
+                            studentDashboard.FormClosed += (s, args) => this.Close();
+                            studentDashboard.Show();
                         }
-
-                        var studentDashboard = new StudentDashboard(); // View own marks + timetable
-                        studentDashboard.Show();
-                        break;
-
-                    case "lecturer":
-                        var lecturerDashboard = new LecturerDashboard(); // View timetable, add/edit marks
-                        lecturerDashboard.Show();
+                        else
+                        {
+                            MessageBox.Show("Student profile not found.");
+                            this.Show(); // Redisplay login form
+                        }
                         break;
 
                     default:
                         MessageBox.Show("Unknown role. Access denied.");
-                        this.Show(); // Show login again
+                        this.Show(); // Redisplay login form
                         break;
                 }
             }
@@ -116,6 +119,5 @@ namespace UnicomTicManagementSystem.Views
                 MessageBox.Show("Invalid username or password.");
             }
         }
-
     }
 }

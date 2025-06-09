@@ -40,7 +40,9 @@ namespace UnicomTicManagementSystem.Data
                         Name TEXT NOT NULL,
                         Address TEXT NOT NULL,
                         SectionId INTEGER,
-                        FOREIGN KEY (SectionId) REFERENCES Sections(Id)
+                        UserId INTEGER,
+                        FOREIGN KEY (SectionId) REFERENCES Sections(Id),
+                        FOREIGN KEY (UserId) REFERENCES Users(Id)
                     );
 
                     CREATE TABLE IF NOT EXISTS StudentTeacher (

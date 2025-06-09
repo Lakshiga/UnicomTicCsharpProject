@@ -7,6 +7,8 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using UnicomTicManagementSystem.Repositories;
 
 
 namespace UnicomTicManagementSystem.Controllers
@@ -52,54 +54,99 @@ namespace UnicomTicManagementSystem.Controllers
                         SectionName = reader.GetString(4),
                     };
                     students.Add(student);
-
-                    //students.Add(new Student
-                    //{
-                    //    Id = reader.GetInt32(0),
-                    //    Name = reader.GetString(1),
-                    //    Address = reader.GetString(2),
-                    //    SectionName = reader.IsDBNull(3) ? "" : reader.GetString(3)
-                    //});
+                                   
                 }
             }
 
             return students;
         }
 
-        public void AddStudent(Student student)
+        public void AddStudent(Student student, string username, string password)
         {
-            using (var conn = DbCon.GetConnection())
+            using (var conn = DbCon.GetConnection()) // Already opens inside
             {
-                var command = new SQLiteCommand("INSERT INTO Students (Name, Address, SectionId) VALUES (@Name, @Address, @SectionId)", conn);
-                command.Parameters.AddWithValue("@Name", student.Name);
-                command.Parameters.AddWithValue("@Address", student.Address);
-                command.Parameters.AddWithValue("@SectionId", student.SectionId);
-                command.ExecuteNonQuery();
+                // Check if user exists
+                int userId = UserRepository.GetUserIdByUsername(username);
+                if (userId == -1)
+                {
+                    // Add user first and get new user id
+                    userId = UserRepository.AddUser(new User
+                    {
+                        Username = username,
+                        Password = password,
+                        Role = "student"
+                    });
+                }
+
+                // Insert student with UserId FK
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO Students (Name, Address, SectionId,UserId) VALUES (@name, @address, @sectionId, @userId)";
+                cmd.Parameters.AddWithValue("@name", student.Name);
+                cmd.Parameters.AddWithValue("@address", student.Address);
+                cmd.Parameters.AddWithValue("@sectionId", student.SectionId);
+                cmd.Parameters.AddWithValue("@userId", userId);
+                cmd.ExecuteNonQuery();
             }
         }
 
-        public void UpdateStudent(Student student)
+
+        public void UpdateStudent(Student student, string username, string password)
         {
             using (var conn = DbCon.GetConnection())
             {
-                var command = new SQLiteCommand("UPDATE Students SET Name = @Name, Address = @Address, SectionId = @SectionId WHERE Id = @Id", conn);
-                command.Parameters.AddWithValue("@Name", student.Name);
-                command.Parameters.AddWithValue("@Address", student.Address);
-                command.Parameters.AddWithValue("@SectionId", student.SectionId);
-                command.Parameters.AddWithValue("@Id", student.Id);
-                command.ExecuteNonQuery();
+                // Update user info
+                UserRepository.UpdateUser(new User
+                {
+                    Id = student.UserId,
+                    Username = username,
+                    Password = password,
+                    Role = "student"
+                });
+
+                // Update student info
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "UPDATE Students SET Name = @name, Address = @address, SectionId = @sectionId, SectionName = @sectionName WHERE Id = @id";
+                cmd.Parameters.AddWithValue("@name", student.Name);
+                cmd.Parameters.AddWithValue("@address", student.Address);
+                cmd.Parameters.AddWithValue("@sectionId", student.SectionId);
+                cmd.Parameters.AddWithValue("@sectionName", student.SectionName ?? "");
+                cmd.Parameters.AddWithValue("@id", student.Id);
+                cmd.ExecuteNonQuery();
             }
         }
 
-        public void DeleteStudent(int studentId)
+
+        public void DeleteStudent(int id)
         {
             using (var conn = DbCon.GetConnection())
             {
-                var command = new SQLiteCommand("DELETE FROM Students WHERE Id = @Id", conn);
-                command.Parameters.AddWithValue("@Id", studentId);
-                command.ExecuteNonQuery();
+                // Get UserId of student to delete
+                int userId = -1;
+                var cmdSelect = conn.CreateCommand();
+                cmdSelect.CommandText = "SELECT UserId FROM Students WHERE Id = @id";
+                cmdSelect.Parameters.AddWithValue("@id", id);
+                var result = cmdSelect.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    userId = Convert.ToInt32(result);
+                }
+
+                // Delete student
+                var cmdDeleteStudent = conn.CreateCommand();
+                cmdDeleteStudent.CommandText = "DELETE FROM Students WHERE Id = @id";
+                cmdDeleteStudent.Parameters.AddWithValue("@id", id);
+                cmdDeleteStudent.ExecuteNonQuery();
+
+                if (userId != -1)
+                {
+                    var cmdDeleteUser = conn.CreateCommand();
+                    cmdDeleteUser.CommandText = "DELETE FROM Users WHERE Id = @userId";
+                    cmdDeleteUser.Parameters.AddWithValue("@userId", userId);
+                    cmdDeleteUser.ExecuteNonQuery();
+                }
             }
         }
+
 
         public Student GetStudentById(int id)
         {

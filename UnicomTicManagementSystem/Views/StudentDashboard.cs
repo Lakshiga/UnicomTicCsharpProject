@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using UnicomTicManagementSystem.Models;
-
+using UnicomTicManagementSystem.Repositories;
 
 namespace UnicomTicManagementSystem.Views
 {
@@ -21,9 +14,9 @@ namespace UnicomTicManagementSystem.Views
 
         private void StudentDashboard_Load(object sender, EventArgs e)
         {
-            string studentId = UserLogin.StudentId;
+            int studentId = UserLogin.StudentId;
 
-            if (string.IsNullOrEmpty(studentId))
+            if (studentId <= 0)
             {
                 MessageBox.Show("Invalid student session.");
                 this.Close();
@@ -45,6 +38,15 @@ namespace UnicomTicManagementSystem.Views
                 MessageBox.Show("Student details not found.");
                 this.Close();
             }
+        }
+
+        private void lblName_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void lblStream_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
