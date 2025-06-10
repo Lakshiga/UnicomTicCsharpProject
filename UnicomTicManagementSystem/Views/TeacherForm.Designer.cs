@@ -126,7 +126,7 @@
             this.dgvTeachers.Name = "dgvTeachers";
             this.dgvTeachers.RowHeadersWidth = 51;
             this.dgvTeachers.RowTemplate.Height = 24;
-            this.dgvTeachers.Size = new System.Drawing.Size(533, 150);
+            this.dgvTeachers.Size = new System.Drawing.Size(557, 176);
             this.dgvTeachers.TabIndex = 9;
             this.dgvTeachers.SelectionChanged += new System.EventHandler(this.dgvTeachers_SelectionChanged);
             // 
@@ -147,6 +147,7 @@
             this.Controls.Add(this.btnDelete);
             this.Name = "TeacherForm";
             this.Text = "TeacherForm";
+            this.Load += new System.EventHandler(this.TeacherForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeachers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

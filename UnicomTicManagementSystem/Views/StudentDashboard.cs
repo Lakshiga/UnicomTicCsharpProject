@@ -36,6 +36,7 @@ namespace UnicomTicManagementSystem.Views
 
         private void lblName_Click(object sender, EventArgs e)
         {
+
         }
 
         private void lblStream_Click(object sender, EventArgs e)

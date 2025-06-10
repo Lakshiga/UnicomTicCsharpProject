@@ -93,5 +93,10 @@ namespace UnicomTicManagementSystem.Views
             ClearInputs();
 
         }
+
+        private void TeacherForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

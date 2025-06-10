@@ -34,5 +34,10 @@ namespace UnicomTicManagementSystem.Views
             SectionForm sectionForm = new SectionForm();
             sectionForm.ShowDialog();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
