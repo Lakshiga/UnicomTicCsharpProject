@@ -60,6 +60,14 @@ namespace UnicomTicManagementSystem.Data
                         FOREIGN KEY (TeacherId) REFERENCES Teachers(Id),
                         FOREIGN KEY (SectionId) REFERENCES Sections(Id)
                     );
+
+                    CREATE TABLE IF NOT EXISTS Subjects (
+                        SubjectID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        SubjectName TEXT NOT NULL,
+                        CourseID INTEGER NOT NULL,
+                        FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+                    );
+
                 ";
 
                 cmd.ExecuteNonQuery();

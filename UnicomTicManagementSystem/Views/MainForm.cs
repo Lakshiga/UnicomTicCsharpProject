@@ -37,7 +37,8 @@ namespace UnicomTicManagementSystem.Views
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            SubjectForm subjectForm = new SubjectForm();
+            subjectForm.ShowDialog();
         }
     }
 }
