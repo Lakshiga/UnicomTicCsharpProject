@@ -95,8 +95,24 @@ namespace UnicomTicManagementSystem.Views
 
         private void search_Click(object sender, EventArgs e)
         {
+            string keyword = secSearch.Text.Trim().ToLower();
 
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                var filteredSections = sectionController.GetAllSections()
+                                         .Where(s => s.Name.ToLower().Contains(keyword))
+                                         .ToList();
+
+                dgvSections.DataSource = null;
+                dgvSections.DataSource = filteredSections;
+                dgvSections.ClearSelection();
+            }
+            else
+            {
+                LoadSections(); // If search box is empty, reload all sections
+            }
         }
+
 
         private void secSearch_TextChanged(object sender, EventArgs e)
         {
