@@ -14,16 +14,17 @@ namespace UnicomTicManagementSystem.Repositories
         {
             using (var conn = DbCon.GetConnection())
             {
-                // Check if the username already exists
+                // Check if the username already exists and get the Id
                 var checkCmd = conn.CreateCommand();
-                checkCmd.CommandText = "SELECT COUNT(*) FROM Users WHERE Username = @username";
+                checkCmd.CommandText = "SELECT Id FROM Users WHERE Username = @username";
                 checkCmd.Parameters.AddWithValue("@username", user.Username);
 
-                long existingCount = (long)checkCmd.ExecuteScalar();
-                if (existingCount > 0)
+                var existingId = checkCmd.ExecuteScalar();
+
+                if (existingId != null && existingId != DBNull.Value)
                 {
-                    // You can throw an exception or return a special code like -1
-                    throw new Exception("Username already exists. Please choose another one.");
+                    // User already exists, return their actual Id
+                    return Convert.ToInt32(existingId);
                 }
 
                 // Proceed with insert
@@ -39,6 +40,7 @@ namespace UnicomTicManagementSystem.Repositories
                 return (int)id;
             }
         }
+
 
 
 

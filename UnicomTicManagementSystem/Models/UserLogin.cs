@@ -19,9 +19,6 @@ namespace UnicomTicManagementSystem.Models
         public static string Address { get; set; }
         public static string Stream { get; set; }
 
-        public static int SectionId { get; set; }
-        public static string SectionName { get; set; }
-
 
     }
 }
