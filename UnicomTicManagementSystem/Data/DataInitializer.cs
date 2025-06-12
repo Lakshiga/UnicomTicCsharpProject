@@ -64,9 +64,10 @@ namespace UnicomTicManagementSystem.Data
                     CREATE TABLE IF NOT EXISTS Subjects (
                         SubjectID INTEGER PRIMARY KEY AUTOINCREMENT,
                         SubjectName TEXT NOT NULL,
-                        CourseID INTEGER NOT NULL,
-                        FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+                        SectionID INTEGER NOT NULL,
+                        FOREIGN KEY (SectionID) REFERENCES Sections(Id)
                     );
+
 
                 ";
 

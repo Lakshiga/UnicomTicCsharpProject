@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
 using UnicomTicManagementSystem.Data;
 
@@ -10,9 +9,9 @@ public class SubjectController
         using (var conn = DbCon.GetConnection())
         {
             string query = @"
-            SELECT s.SubjectID, s.SubjectName, s.CourseID, c.CourseName
+            SELECT s.SubjectID, s.SubjectName, s.SectionID, sec.Name AS SectionName
             FROM Subjects s
-            JOIN Courses c ON s.CourseID = c.CourseID";
+            JOIN Sections sec ON s.SectionID = sec.Id";
 
             using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
             using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
@@ -24,15 +23,14 @@ public class SubjectController
         }
     }
 
-
-    public DataTable GetSubjectsByCourse(int courseId)
+    public DataTable GetSubjectsBySection(int sectionId)
     {
         using (var conn = DbCon.GetConnection())
         {
-            string query = "SELECT * FROM Subjects WHERE CourseID = @CourseID";
+            string query = "SELECT * FROM Subjects WHERE SectionID = @SectionID";
             using (var cmd = new SQLiteCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@CourseID", courseId);
+                cmd.Parameters.AddWithValue("@SectionID", sectionId);
                 using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
                 {
                     DataTable dt = new DataTable();
@@ -43,30 +41,30 @@ public class SubjectController
         }
     }
 
-    public void AddSubject(string name, int courseId)
+    public void AddSubject(string name, int sectionId)
     {
         using (var conn = DbCon.GetConnection())
         {
-            string query = "INSERT INTO Subjects (SubjectName, CourseID) VALUES (@name, @courseId)";
+            string query = "INSERT INTO Subjects (SubjectName, SectionID) VALUES (@name, @sectionId)";
             using (var cmd = new SQLiteCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@courseId", courseId);
+                cmd.Parameters.AddWithValue("@sectionId", sectionId);
                 cmd.ExecuteNonQuery();
             }
         }
     }
 
-    public void UpdateSubject(int id, string name, int courseId)
+    public void UpdateSubject(int id, string name, int sectionId)
     {
         using (var conn = DbCon.GetConnection())
         {
-            string query = "UPDATE Subjects SET SubjectName = @name, CourseID = @courseId WHERE SubjectID = @id";
+            string query = "UPDATE Subjects SET SubjectName = @name, SectionID = @sectionId WHERE SubjectID = @id";
             using (var cmd = new SQLiteCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@courseId", courseId);
+                cmd.Parameters.AddWithValue("@sectionId", sectionId);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -84,4 +82,21 @@ public class SubjectController
             }
         }
     }
+
+
+    public DataTable GetAllSections()
+    {
+        using (var conn = DbCon.GetConnection())
+        {
+            string query = "SELECT Id, Name FROM Sections";
+            using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+            using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
+            {
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+        }
+    }
+
 }

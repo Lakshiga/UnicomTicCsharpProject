@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using UnicomTicManagementSystem.Controllers; // Make sure this is correct based on your file structure
 
 namespace UnicomTicManagementSystem.Views
 {
@@ -19,6 +14,24 @@ namespace UnicomTicManagementSystem.Views
         {
             InitializeComponent();
             LoadSubjects();
+            LoadSections();
+        }
+
+        private void LoadSections()
+        {
+            DataTable sections = controller.GetAllSections();
+
+            // For Add/Update
+            comboBoxSelectSection.DataSource = sections.Copy();
+            comboBoxSelectSection.DisplayMember = "Name";  // Adjust based on DB schema
+            comboBoxSelectSection.ValueMember = "Id";
+            comboBoxSelectSection.SelectedIndex = -1;
+
+            // For Search
+            comboBoxSearchSection.DataSource = sections;
+            comboBoxSearchSection.DisplayMember = "Name";
+            comboBoxSearchSection.ValueMember = "Id";
+            comboBoxSearchSection.SelectedIndex = -1;
         }
 
         private void LoadSubjects()
@@ -28,81 +41,133 @@ namespace UnicomTicManagementSystem.Views
             // Bind to DataGridView
             dataGridView1.DataSource = dt;
 
-            // Hide CourseID column
-            if (dataGridView1.Columns.Contains("CourseID"))
+            // Hide SectionID column (if present)
+            if (dataGridView1.Columns.Contains("SectionID"))
             {
-                dataGridView1.Columns["CourseID"].Visible = false;
+                dataGridView1.Columns["SectionID"].Visible = false;
             }
 
-            // Show CourseName in ComboBox
-            DataTable comboTable = dt.DefaultView.ToTable(true, "CourseID", "CourseName");
-            comboBoxSearchCourse.DataSource = comboTable;
-            comboBoxSearchCourse.DisplayMember = "CourseName";
-            comboBoxSearchCourse.ValueMember = "CourseID";
-            comboBoxSearchCourse.SelectedIndex = -1;
+            // Populate ComboBox with Section names
+            DataTable comboTable = dt.DefaultView.ToTable(true, "SectionID", "SectionName");
+            comboBoxSearchSection.DataSource = comboTable;
+            comboBoxSearchSection.DisplayMember = "SectionName";
+            comboBoxSearchSection.ValueMember = "SectionID";
+            comboBoxSearchSection.SelectedIndex = -1;
         }
-
-
-
 
         private void SubjectForm_Load(object sender, EventArgs e)
         {
-
+            // Optional: logic to run on form load
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAdd_Click(object sender, EventArgs e)
         {
+            string name = txtSubjectName.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) || comboBoxSelectSection.SelectedValue == null)
             {
-                string name = txtSubjectName.Text;
-                int courseId = Convert.ToInt32(comboBoxSearchCourse.SelectedValue);
-                controller.AddSubject(name, courseId);
-                LoadSubjects();
+                MessageBox.Show("Please enter subject name and select a section.");
+                return;
             }
-        }
 
-        private void btn_delete_Click(object sender, EventArgs e)
-        {
-            {
-                if (selectedSubjectId == -1) return;
+            int sectionId = Convert.ToInt32(comboBoxSelectSection.SelectedValue);
 
-                controller.DeleteSubject(selectedSubjectId);
-                LoadSubjects();
-            }
-        }
+            controller.AddSubject(name, sectionId);
+            MessageBox.Show("Subject added successfully.");
 
-        private void comboBox_subject_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            LoadSubjects();
+            ClearForm();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
         {
+            if (selectedSubjectId == -1)
             {
-                if (selectedSubjectId == -1) return;
-
-                string name = txtSubjectName.Text;
-                int courseId = Convert.ToInt32(comboBoxSearchCourse.SelectedValue);
-                controller.UpdateSubject(selectedSubjectId, name, courseId);
-                LoadSubjects();
+                MessageBox.Show("Please select a subject to update.");
+                return;
             }
+
+            string name = txtSubjectName.Text.Trim();
+
+            if (comboBoxSelectSection.SelectedValue == null || string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Please enter a subject name and select a section.");
+                return;
+            }
+            int sectionId = Convert.ToInt32(comboBoxSelectSection.SelectedValue);
+
+            controller.UpdateSubject(selectedSubjectId, name, sectionId);
+            MessageBox.Show("Subject updated successfully.");
+
+            LoadSubjects();
+            ClearForm();
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (selectedSubjectId == -1)
+            {
+                MessageBox.Show("Please select a subject to delete.");
+                return;
+            }
+
+            controller.DeleteSubject(selectedSubjectId);
+            MessageBox.Show("Subject deleted successfully.");
+
+            LoadSubjects();
+            ClearForm();
         }
 
         private void btn_search_Click(object sender, EventArgs e)
         {
+            if (comboBoxSearchSection.SelectedValue == null)
             {
-                int courseId = Convert.ToInt32(comboBoxSearchCourse.SelectedValue);
-                DataTable dt = controller.GetSubjectsByCourse(courseId);
-                dataGridView1.DataSource = dt;
+                MessageBox.Show("Please select a section to search.");
+                return;
             }
+
+            int sectionId = Convert.ToInt32(comboBoxSearchSection.SelectedValue);
+            DataTable dt = controller.GetSubjectsBySection(sectionId);
+            dataGridView1.DataSource = dt;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                selectedSubjectId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["SubjectID"].Value);
-                txtSubjectName.Text = dataGridView1.Rows[e.RowIndex].Cells["SubjectName"].Value.ToString();
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                selectedSubjectId = Convert.ToInt32(row.Cells["SubjectID"].Value);
+                txtSubjectName.Text = row.Cells["SubjectName"].Value.ToString();
+
+                // Optional: fill both combo boxes
+                if (row.Cells["SectionID"].Value != DBNull.Value)
+                {
+                    int sectionId = Convert.ToInt32(row.Cells["SectionID"].Value);
+                    comboBoxSelectSection.SelectedValue = sectionId;
+                    comboBoxSearchSection.SelectedValue = sectionId;
+                }
             }
         }
+
+
+        private void ClearForm()
+        {
+            selectedSubjectId = -1;
+            txtSubjectName.Clear();
+            comboBoxSearchSection.SelectedIndex = -1;
+            comboBoxSelectSection.SelectedIndex = -1;
+        }
+
+        private void comboBoxSearchSection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Optional: handle selection changes
+            // Example: Debug.WriteLine(comboBoxSearchSection.SelectedValue?.ToString());
+        }
+
+        private void comboBoxSelectSection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
+
 }

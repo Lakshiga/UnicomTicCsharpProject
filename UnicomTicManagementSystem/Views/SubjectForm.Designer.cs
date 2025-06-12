@@ -34,35 +34,40 @@
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_search = new System.Windows.Forms.Button();
             this.txtSubjectName = new System.Windows.Forms.TextBox();
-            this.comboBoxSearchCourse = new System.Windows.Forms.ComboBox();
+            this.comboBoxSearchSection = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.comboBoxSelectSection = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(113, 72);
+            this.label1.Location = new System.Drawing.Point(151, 89);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 13);
+            this.label1.Size = new System.Drawing.Size(117, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "SUBJECT NAME :";
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(116, 125);
+            this.btnAdd.Location = new System.Drawing.Point(155, 192);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(100, 28);
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "ADD";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.button1_Click);
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btn_update
             // 
-            this.btn_update.Location = new System.Drawing.Point(225, 125);
+            this.btn_update.Location = new System.Drawing.Point(300, 192);
+            this.btn_update.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_update.Name = "btn_update";
-            this.btn_update.Size = new System.Drawing.Size(75, 23);
+            this.btn_update.Size = new System.Drawing.Size(100, 28);
             this.btn_update.TabIndex = 2;
             this.btn_update.Text = "UPDATE";
             this.btn_update.UseVisualStyleBackColor = true;
@@ -70,9 +75,10 @@
             // 
             // btn_delete
             // 
-            this.btn_delete.Location = new System.Drawing.Point(337, 125);
+            this.btn_delete.Location = new System.Drawing.Point(448, 192);
+            this.btn_delete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_delete.Name = "btn_delete";
-            this.btn_delete.Size = new System.Drawing.Size(75, 23);
+            this.btn_delete.Size = new System.Drawing.Size(100, 28);
             this.btn_delete.TabIndex = 3;
             this.btn_delete.Text = "DELETE";
             this.btn_delete.UseVisualStyleBackColor = true;
@@ -80,9 +86,10 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(116, 187);
+            this.btn_search.Location = new System.Drawing.Point(155, 257);
+            this.btn_search.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(75, 23);
+            this.btn_search.Size = new System.Drawing.Size(100, 28);
             this.btn_search.TabIndex = 4;
             this.btn_search.Text = "SEARCH";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -90,42 +97,68 @@
             // 
             // txtSubjectName
             // 
-            this.txtSubjectName.Location = new System.Drawing.Point(225, 72);
+            this.txtSubjectName.Location = new System.Drawing.Point(300, 89);
+            this.txtSubjectName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSubjectName.Name = "txtSubjectName";
-            this.txtSubjectName.Size = new System.Drawing.Size(187, 20);
+            this.txtSubjectName.Size = new System.Drawing.Size(248, 22);
             this.txtSubjectName.TabIndex = 5;
             // 
-            // comboBoxSearchCourse
+            // comboBoxSearchSection
             // 
-            this.comboBoxSearchCourse.FormattingEnabled = true;
-            this.comboBoxSearchCourse.Location = new System.Drawing.Point(225, 187);
-            this.comboBoxSearchCourse.Name = "comboBoxSearchCourse";
-            this.comboBoxSearchCourse.Size = new System.Drawing.Size(187, 21);
-            this.comboBoxSearchCourse.TabIndex = 6;
-            this.comboBoxSearchCourse.SelectedIndexChanged += new System.EventHandler(this.comboBox_subject_SelectedIndexChanged);
+            this.comboBoxSearchSection.FormattingEnabled = true;
+            this.comboBoxSearchSection.Location = new System.Drawing.Point(300, 257);
+            this.comboBoxSearchSection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxSearchSection.Name = "comboBoxSearchSection";
+            this.comboBoxSearchSection.Size = new System.Drawing.Size(248, 24);
+            this.comboBoxSearchSection.TabIndex = 6;
+            this.comboBoxSearchSection.SelectedIndexChanged += new System.EventHandler(this.comboBoxSearchSection_SelectedIndexChanged);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(116, 260);
+            this.dataGridView1.Location = new System.Drawing.Point(155, 320);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(307, 150);
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.Size = new System.Drawing.Size(401, 185);
             this.dataGridView1.TabIndex = 7;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // comboBoxSelectSection
+            // 
+            this.comboBoxSelectSection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectSection.FormattingEnabled = true;
+            this.comboBoxSelectSection.Location = new System.Drawing.Point(300, 139);
+            this.comboBoxSelectSection.Name = "comboBoxSelectSection";
+            this.comboBoxSelectSection.Size = new System.Drawing.Size(248, 24);
+            this.comboBoxSelectSection.TabIndex = 8;
+            this.comboBoxSelectSection.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectSection_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(152, 139);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(125, 16);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "SELECT COURSE :";
+            // 
             // SubjectForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.comboBoxSelectSection);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.comboBoxSearchCourse);
+            this.Controls.Add(this.comboBoxSearchSection);
             this.Controls.Add(this.txtSubjectName);
             this.Controls.Add(this.btn_search);
             this.Controls.Add(this.btn_delete);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SubjectForm";
             this.Text = "SubjectForm";
             this.Load += new System.EventHandler(this.SubjectForm_Load);
@@ -143,7 +176,9 @@
         private System.Windows.Forms.Button btn_delete;
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.TextBox txtSubjectName;
-        private System.Windows.Forms.ComboBox comboBoxSearchCourse;
+        private System.Windows.Forms.ComboBox comboBoxSearchSection;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ComboBox comboBoxSelectSection;
+        private System.Windows.Forms.Label label2;
     }
 }
