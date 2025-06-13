@@ -13,7 +13,7 @@ using UnicomTicManagementSystem.Models;
 
 namespace UnicomTicManagementSystem.Views
 {
-    
+
     public partial class SectionForm : Form
     {
         private SectionController sectionController = new SectionController();

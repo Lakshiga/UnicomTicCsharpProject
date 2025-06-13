@@ -43,7 +43,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(78, 53);
+            this.label1.Location = new System.Drawing.Point(194, 76);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 13);
@@ -53,7 +53,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(78, 94);
+            this.label2.Location = new System.Drawing.Point(194, 117);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
@@ -63,7 +63,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(76, 133);
+            this.label3.Location = new System.Drawing.Point(192, 156);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(91, 13);
@@ -73,7 +73,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(78, 176);
+            this.label4.Location = new System.Drawing.Point(194, 199);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 13);
@@ -83,7 +83,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(78, 214);
+            this.label5.Location = new System.Drawing.Point(194, 237);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(112, 13);
@@ -93,7 +93,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(200, 53);
+            this.lblName.Location = new System.Drawing.Point(316, 76);
             this.lblName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(33, 13);
@@ -104,7 +104,7 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(200, 94);
+            this.lblUsername.Location = new System.Drawing.Point(316, 117);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(53, 13);
@@ -114,7 +114,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(200, 133);
+            this.lblPassword.Location = new System.Drawing.Point(316, 156);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(52, 13);
@@ -124,7 +124,7 @@
             // lblAddress
             // 
             this.lblAddress.AutoSize = true;
-            this.lblAddress.Location = new System.Drawing.Point(200, 176);
+            this.lblAddress.Location = new System.Drawing.Point(316, 199);
             this.lblAddress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAddress.Name = "lblAddress";
             this.lblAddress.Size = new System.Drawing.Size(44, 13);
@@ -134,7 +134,7 @@
             // lblStream
             // 
             this.lblStream.AutoSize = true;
-            this.lblStream.Location = new System.Drawing.Point(200, 214);
+            this.lblStream.Location = new System.Drawing.Point(316, 237);
             this.lblStream.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStream.Name = "lblStream";
             this.lblStream.Size = new System.Drawing.Size(41, 13);
@@ -157,6 +157,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "StudentDashboard";
             this.Text = "StudentDashboard";

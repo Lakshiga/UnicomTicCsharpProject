@@ -85,26 +85,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
+    <Compile Include="Repositories\TimeTableRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\StudentTeacherService.cs" />
     <Compile Include="Services\TeacherService.cs" />
-    <Compile Include="Views\CourseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\CourseForm.Designer.cs">
-      <DependentUpon>CourseForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\ExamForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\ExamForm.Designer.cs">
       <DependentUpon>ExamForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LecturerDashboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\LecturerDashboard.Designer.cs">
-      <DependentUpon>LecturerDashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginForm.cs">
       <SubType>Form</SubType>
@@ -181,14 +170,23 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\ExamForm.resx">
+      <DependentUpon>ExamForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\MarkForm.resx">
+      <DependentUpon>MarkForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\SectionForm.resx">
       <DependentUpon>SectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\StaffDashboard.resx">
+      <DependentUpon>StaffDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentDashboard.resx">
       <DependentUpon>StudentDashboard.cs</DependentUpon>
@@ -196,11 +194,17 @@
     <EmbeddedResource Include="Views\StudentForm.resx">
       <DependentUpon>StudentForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\StudentTeacherForm.resx">
+      <DependentUpon>StudentTeacherForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\SubjectForm.resx">
       <DependentUpon>SubjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TeacherForm.resx">
       <DependentUpon>TeacherForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\TimeTableForm.resx">
+      <DependentUpon>TimeTableForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

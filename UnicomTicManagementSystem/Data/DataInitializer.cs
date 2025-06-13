@@ -68,6 +68,14 @@ namespace UnicomTicManagementSystem.Data
                         FOREIGN KEY (SectionID) REFERENCES Sections(Id)
                     );
 
+                    CREATE TABLE IF NOT EXISTS Timetable (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Subject TEXT NOT NULL,
+                        TimeSlot TEXT NOT NULL,
+                        Room TEXT NOT NULL
+                    );
+
+
 
                 ";
 

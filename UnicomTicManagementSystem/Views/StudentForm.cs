@@ -214,5 +214,10 @@ namespace UnicomTicManagementSystem.Views
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void dgvStudents_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void StudentForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

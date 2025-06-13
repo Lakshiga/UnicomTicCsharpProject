@@ -17,28 +17,43 @@ namespace UnicomTicManagementSystem.Views
             InitializeComponent();
         }
 
+        private void LoadFormInPanel(Form form)
+        {
+            panel2.Controls.Clear(); 
+            form.TopLevel = false;   
+            form.Dock = DockStyle.Fill;
+            panel2.Controls.Add(form);  
+            form.Show(); 
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            StudentForm studentForm = new StudentForm();
-            studentForm.ShowDialog();
+            LoadFormInPanel(new StudentForm());
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TeacherForm teacherForm = new TeacherForm();
-            teacherForm.ShowDialog();
+            LoadFormInPanel(new TeacherForm());
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            SectionForm sectionForm = new SectionForm();
-            sectionForm.ShowDialog();
+            LoadFormInPanel(new SectionForm());
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SubjectForm subjectForm = new SubjectForm();
-            subjectForm.ShowDialog();
+            LoadFormInPanel(new SubjectForm());
+        }
+
+        private void button6_Click_1(object sender, EventArgs e)
+        {
+            LoadFormInPanel(new TimeTableForm());
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            LoadFormInPanel(new StaffDashboard());
         }
     }
 }

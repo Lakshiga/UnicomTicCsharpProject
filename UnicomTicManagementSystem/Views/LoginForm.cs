@@ -79,13 +79,6 @@ namespace UnicomTicManagementSystem.Views
                         this.Show();
                         break;
 
-                    case "lecturer":
-                        var lecturerDashboard = new LecturerDashboard();
-                        this.Hide();
-                        lecturerDashboard.ShowDialog();
-                        this.Show();
-                        break;
-
                     case "student":
                         var student = StudentRepository.GetStudentByUsername(user.Username);
                         if (student != null)
@@ -121,6 +114,31 @@ namespace UnicomTicManagementSystem.Views
             {
                 MessageBox.Show("Invalid username or password.");
             }
+        }
+
+        private void LoginForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblMessage_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
