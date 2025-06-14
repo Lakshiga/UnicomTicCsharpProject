@@ -21,32 +21,34 @@ namespace UnicomTicManagementSystem.Data
             return table;
         }
 
-        public void AddTimeTable(string subject, string timeSlot, string room)
+        public void AddTimeTable(string subject, string timeSlot, string room, DateTime date)
         {
             using (var conn = DbCon.GetConnection())
             {
-                string query = "INSERT INTO Timetable (Subject, TimeSlot, Room) VALUES (@Subject, @TimeSlot, @Room)";
+                string query = "INSERT INTO Timetable (Subject, TimeSlot, Room, Date) VALUES (@Subject, @TimeSlot, @Room, @Date)";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Subject", subject);
                     cmd.Parameters.AddWithValue("@TimeSlot", timeSlot);
                     cmd.Parameters.AddWithValue("@Room", room);
+                    cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
                     cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public void UpdateTimeTable(int id, string subject, string timeSlot, string room)
+        public void UpdateTimeTable(int id, string subject, string timeSlot, string room, DateTime date)
         {
             using (var conn = DbCon.GetConnection())
             {
-                string query = "UPDATE Timetable SET Subject = @Subject, TimeSlot = @TimeSlot, Room = @Room WHERE Id = @Id";
+                string query = "UPDATE Timetable SET Subject = @Subject, TimeSlot = @TimeSlot, Room = @Room, Date = @Date WHERE Id = @Id";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.Parameters.AddWithValue("@Subject", subject);
                     cmd.Parameters.AddWithValue("@TimeSlot", timeSlot);
                     cmd.Parameters.AddWithValue("@Room", room);
+                    cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
                     cmd.ExecuteNonQuery();
                 }
             }

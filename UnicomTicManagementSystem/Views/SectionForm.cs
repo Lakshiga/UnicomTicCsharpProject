@@ -29,8 +29,6 @@ namespace UnicomTicManagementSystem.Views
             LoadSections();
         }
 
-
-
         private void LoadSections()
         {
             /* dgvSections.DataSource = null;
@@ -47,29 +45,25 @@ namespace UnicomTicManagementSystem.Views
                 dgvSections.ClearSelection();
 
             }
-
-        }    
-
+        }  
 
         private void dgvSections_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvSections.SelectedRows.Count > 0)
             {
-                secName.Text = dgvSections.SelectedRows[0].Cells["Name"].Value.ToString();
+                textBox1.Text = dgvSections.SelectedRows[0].Cells["Name"].Value.ToString();
             }
         }
-
-        
-
+              
         private void button3_Click_1(object sender, EventArgs e)
         {
              var section = new Section
             {
-                Name = secName.Text.Trim()
+                Name = textBox1.Text.Trim()
             };
             sectionController.AddSection(section);
             LoadSections();
-            secName.Clear();
+            textBox1.Clear();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -80,11 +74,11 @@ namespace UnicomTicManagementSystem.Views
                 var section = new Section
                 {
                     Id = id,
-                    Name = secName.Text.Trim()
+                    Name = textBox1.Text.Trim()
                 };
                 sectionController.UpdateSection(section);
                 LoadSections();
-                secName.Clear();
+                textBox1.Clear();
             }
         }
 
@@ -95,7 +89,7 @@ namespace UnicomTicManagementSystem.Views
                 int id = Convert.ToInt32(dgvSections.SelectedRows[0].Cells["Id"].Value);
                 sectionController.DeleteSection(id);
                 LoadSections();
-                secName.Clear();
+                textBox1.Clear();
             }
         }
 
@@ -120,6 +114,11 @@ namespace UnicomTicManagementSystem.Views
         }
 
         private void dgvSections_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

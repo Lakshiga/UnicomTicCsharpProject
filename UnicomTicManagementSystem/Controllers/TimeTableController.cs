@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SQLite;
 using UnicomTicManagementSystem.Data;
 
@@ -12,7 +13,7 @@ namespace UnicomTicManagementSystem.Controllers
         {
             using (var conn = DbCon.GetConnection())
             {
-                string query = "SELECT SubjectName FROM Subjects"; // change table/column names if needed
+                string query = "SELECT SubjectName FROM Subjects"; // adjust as needed
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     using (var adapter = new SQLiteDataAdapter(cmd))
@@ -30,14 +31,16 @@ namespace UnicomTicManagementSystem.Controllers
             return repository.GetAllTimeTables();
         }
 
-        public void AddTimetable(string subject, string timeSlot, string room)
+        // ✅ Add DateTime parameter here
+        public void AddTimetable(string subject, string timeSlot, string room, DateTime date)
         {
-            repository.AddTimeTable(subject, timeSlot, room);
+            repository.AddTimeTable(subject, timeSlot, room, date);
         }
 
-        public void UpdateTimetable(int id, string subject, string timeSlot, string room)
+        // ✅ Add DateTime parameter here
+        public void UpdateTimetable(int id, string subject, string timeSlot, string room, DateTime date)
         {
-            repository.UpdateTimeTable(id, subject, timeSlot, room);
+            repository.UpdateTimeTable(id, subject, timeSlot, room, date);
         }
 
         public void DeleteTimetable(int id)

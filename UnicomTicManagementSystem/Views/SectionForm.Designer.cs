@@ -58,7 +58,6 @@
             this.dgvSections.TabIndex = 24;
             this.dgvSections.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSections_CellContentClick);
             this.dgvSections.SelectionChanged += new System.EventHandler(this.dgvSections_SelectionChanged);
-
             // 
             // label1
             // 
@@ -122,6 +121,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(255, 22);
             this.textBox1.TabIndex = 16;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // secName
             // 

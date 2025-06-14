@@ -72,8 +72,19 @@ namespace UnicomTicManagementSystem.Data
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         Subject TEXT NOT NULL,
                         TimeSlot TEXT NOT NULL,
-                        Room TEXT NOT NULL
+                        Room TEXT NOT NULL,
+                        Date TEXT NOT NULL  -- or use DATE type
                     );
+
+                    
+                    CREATE TABLE IF NOT EXISTS ManageExam (
+                        ExamID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        SubjectID INTEGER NOT NULL,
+                        ExamName TEXT NOT NULL,
+                        FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
+                    );
+
+
 
 
 

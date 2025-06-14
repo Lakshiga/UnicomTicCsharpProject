@@ -41,27 +41,35 @@ namespace UnicomTicManagementSystem.Views
             comboSubject.SelectedIndex = -1;
             txtRoom.Clear();
             txtTimeSlot.Clear();
+            textBox1.Clear();
             selectedTimetableId = -1;
+            datePicker.Value = DateTime.Today;
         }
+
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (comboSubject.SelectedItem == null || string.IsNullOrWhiteSpace(txtTimeSlot.Text) || string.IsNullOrWhiteSpace(txtRoom.Text))
             {
-                MessageBox.Show("Please enter all fields: Subject, TimeSlot, and Room.");
+                MessageBox.Show("Please enter all fields: Subject, TimeSlot, Room, and Date.");
                 return;
             }
+
+            // Ensure a date is picked
+            DateTime selectedDate = datePicker.Value;
 
             controller.AddTimetable(
                 comboSubject.SelectedItem.ToString(),
                 txtTimeSlot.Text.Trim(),
-                txtRoom.Text.Trim()
+                txtRoom.Text.Trim(),
+                selectedDate
             );
 
             MessageBox.Show("Timetable entry added.");
             LoadTimetableData();
             ClearForm();
         }
+
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -71,11 +79,15 @@ namespace UnicomTicManagementSystem.Views
                 return;
             }
 
+            // Ensure a date is picked
+            DateTime selectedDate = datePicker.Value;
+
             controller.UpdateTimetable(
                 selectedTimetableId,
                 comboSubject.SelectedItem.ToString(),
                 txtTimeSlot.Text.Trim(),
-                txtRoom.Text.Trim()
+                txtRoom.Text.Trim(),
+                selectedDate
             );
 
             MessageBox.Show("Timetable updated.");
@@ -83,7 +95,8 @@ namespace UnicomTicManagementSystem.Views
             ClearForm();
         }
 
-        
+
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -112,6 +125,18 @@ namespace UnicomTicManagementSystem.Views
                 LoadTimetableData();
                 ClearForm();
             }
+        }
+
+        private void btnPickDate_Click(object sender, EventArgs e)
+        {
+            datePicker.Visible = true;
+            datePicker.BringToFront();
+        }
+
+        private void datePicker_ValueChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = datePicker.Value.ToString("yyyy-MM-dd");
+            datePicker.Visible = false;
         }
     }
 }
