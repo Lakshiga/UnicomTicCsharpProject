@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace UnicomTicManagementSystem.Models
 {
-    internal class Section
+    public class Section
     {
         public int Id { get; set; }
-        public string Name { get; set; } // e.g., Bio, Technology, Maths
+        public string Name { get; set; }
     }
 }
+

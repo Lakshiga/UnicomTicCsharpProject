@@ -20,25 +20,50 @@ namespace UnicomTicManagementSystem.Views
         public SectionForm()
         {
             InitializeComponent();
+
+            // Add these lines when embedding a Form into a Panel
+            this.TopLevel = false;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Dock = DockStyle.Fill;
+
             LoadSections();
         }
 
 
+
         private void LoadSections()
         {
-            dgvSections.DataSource = null;
-            dgvSections.DataSource = sectionController.GetAllSections();
-            dgvSections.ClearSelection();
+            /* dgvSections.DataSource = null;
+             dgvSections.DataSource = sectionController.GetAllSections();
+             dgvSections.ClearSelection(); */
+
+            var sections = sectionController.GetAllSections();
+
+            if (sections != null && sections.Any())
+            {
+                dgvSections.AutoGenerateColumns = true;
+                dgvSections.DataSource = null;
+                dgvSections.DataSource = sections;
+                dgvSections.ClearSelection();
+
+            }
+
+        }    
+
+
+        private void dgvSections_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvSections.SelectedRows.Count > 0)
+            {
+                secName.Text = dgvSections.SelectedRows[0].Cells["Name"].Value.ToString();
+            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
+        
 
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
-            var section = new Section
+             var section = new Section
             {
                 Name = secName.Text.Trim()
             };
@@ -47,28 +72,7 @@ namespace UnicomTicManagementSystem.Views
             secName.Clear();
         }
 
-        private void SectionForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void secName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void delete_Click(object sender, EventArgs e)
-        {
-            if (dgvSections.SelectedRows.Count > 0)
-            {
-                int id = Convert.ToInt32(dgvSections.SelectedRows[0].Cells["Id"].Value);
-                sectionController.DeleteSection(id);
-                LoadSections();
-                secName.Clear();
-            }
-        }
-
-        private void update_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             if (dgvSections.SelectedRows.Count > 0)
             {
@@ -84,16 +88,18 @@ namespace UnicomTicManagementSystem.Views
             }
         }
 
-
-        private void dgvSections_SelectionChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             if (dgvSections.SelectedRows.Count > 0)
             {
-                secName.Text = dgvSections.SelectedRows[0].Cells["Name"].Value.ToString();
+                int id = Convert.ToInt32(dgvSections.SelectedRows[0].Cells["Id"].Value);
+                sectionController.DeleteSection(id);
+                LoadSections();
+                secName.Clear();
             }
         }
 
-        private void search_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
             string keyword = secSearch.Text.Trim().ToLower();
 
@@ -113,18 +119,7 @@ namespace UnicomTicManagementSystem.Views
             }
         }
 
-
-        private void secSearch_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void dgvSections_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void txtName_Click(object sender, EventArgs e)
         {
 
         }

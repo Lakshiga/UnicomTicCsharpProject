@@ -55,5 +55,15 @@ namespace UnicomTicManagementSystem.Views
         {
             LoadFormInPanel(new StaffDashboard());
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            LoadFormInPanel(new ExamForm());
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            LoadFormInPanel(new MarkForm());
+        }
     }
 }
