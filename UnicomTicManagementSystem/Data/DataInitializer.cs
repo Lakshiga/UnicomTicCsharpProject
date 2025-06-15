@@ -21,7 +21,17 @@ namespace UnicomTicManagementSystem.Data
                         Username TEXT NOT NULL UNIQUE,
                         Password TEXT NOT NULL,
                         Role TEXT NOT NULL
-                    );                    
+                    );   
+
+                    CREATE TABLE IF NOT EXISTS Staff (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Name TEXT NOT NULL,
+                        Address TEXT NOT NULL,
+                        Email TEXT NOT NULL,
+                        UserId INTEGER,
+                        FOREIGN KEY (UserId) REFERENCES Users(Id)
+                    );
+
 
                     CREATE TABLE IF NOT EXISTS Sections (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -119,12 +119,6 @@
     <Compile Include="Views\SectionForm.Designer.cs">
       <DependentUpon>SectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\StaffDashboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\StaffDashboard.Designer.cs">
-      <DependentUpon>StaffDashboard.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\StudentDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,12 +130,6 @@
     </Compile>
     <Compile Include="Views\StudentForm.Designer.cs">
       <DependentUpon>StudentForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StudentTeacherForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\StudentTeacherForm.Designer.cs">
-      <DependentUpon>StudentTeacherForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SubjectForm.cs">
       <SubType>Form</SubType>
@@ -185,17 +173,11 @@
     <EmbeddedResource Include="Views\SectionForm.resx">
       <DependentUpon>SectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\StaffDashboard.resx">
-      <DependentUpon>StaffDashboard.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentDashboard.resx">
       <DependentUpon>StudentDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\StudentForm.resx">
       <DependentUpon>StudentForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\StudentTeacherForm.resx">
-      <DependentUpon>StudentTeacherForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SubjectForm.resx">
       <DependentUpon>SubjectForm.cs</DependentUpon>

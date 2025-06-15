@@ -41,6 +41,29 @@ namespace UnicomTicManagementSystem.Repositories
             }
         }
 
+        public static User GetUserById(int id)
+        {
+            using (var conn = DbCon.GetConnection())
+            {
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM Users WHERE Id = @id";
+                cmd.Parameters.AddWithValue("@id", id);
+
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new User
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        Username = reader["Username"].ToString(),
+                        Password = reader["Password"].ToString(),
+                        Role = reader["Role"].ToString()
+                    };
+                }
+            }
+
+            return null;
+        }
 
 
 
